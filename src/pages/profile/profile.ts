@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 
 import { ModalPost } from '../modal-post/modal-post';
@@ -7,12 +7,16 @@ import { Options } from '../options/options';
 import { TaggedProfile } from '../tagged-profile/tagged-profile';
 import { SavedProfile } from '../saved-profile/saved-profile';
 
+declare var google: any;
+
 @IonicPage()
 @Component({
   selector: 'page-profile',
   templateUrl: 'profile.html',
 })
 export class Profile {
+  @ViewChild('map') mapRef: ElementRef;
+  map: any;
 
   public profile_segment:string;
 
@@ -100,4 +104,7 @@ export class Profile {
     modal.present();
   }
 
+  ionViewDidLoad(){
+    alert(this.mapRef);
+  }
 }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, AlertController, LoadingController, NavController, NavParams, App } from 'ionic-angular';
 import { TabsPage } from "../tabs/tabs";
+import * as firebase from 'firebase'
 
 /**
  * Generated class for the LoginPage page.
@@ -8,6 +9,7 @@ import { TabsPage } from "../tabs/tabs";
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
  */
+
 @IonicPage()
 @Component({
   selector: 'page-login',
@@ -23,17 +25,41 @@ export class LoginPage {
     public navParams: NavParams
   ) { }
 
+  goNextPage() {
+    var user = firebase.auth().currentUser;
+
+    if (user != null) {
+      user.providerData.forEach(function (profile) {
+        console.log("Sign-in provider: " + profile.providerId);
+        console.log("  Provider-specific UID: " + profile.uid);
+        console.log("  Name: " + profile.displayName);
+        console.log("  Email: " + profile.email);
+        console.log("  Photo URL: " + profile.photoURL);
+      });
+
+      const loading = this.loadingCtrl.create({
+        duration: 500
+      });
+
+      loading.onDidDismiss(() => {
+        this.navCtrl.setRoot(TabsPage);
+      });
+
+      loading.present();
+    }
+  }
   login() {
-    const loading = this.loadingCtrl.create({
-      duration: 500
-    });
+    let provider = new firebase.auth.FacebookAuthProvider();
 
-    loading.onDidDismiss(() => {
-      this.navCtrl.setRoot(TabsPage);
-    });
-
-    loading.present();
-
+    firebase.auth().signInWithRedirect(provider).then(() => {
+      firebase.auth().getRedirectResult().then((result) => {
+        // The signed-in user info.
+        var user = result.user;
+        // ...
+      }).catch(function (error) {
+        alert(JSON.stringify(error))
+      });
+    })
   }
 
   goToSignup() {

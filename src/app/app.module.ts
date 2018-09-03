@@ -22,6 +22,21 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Camera } from '@ionic-native/camera';
+import * as firebase from 'firebase';
+import 'firebase/firestore';
+
+var config = {
+  apiKey: "AIzaSyC5JcGefosO4aQu437vltDtbHTLXSiFpxE",
+  authDomain: "lifegram-214905.firebaseapp.com",
+  databaseURL: "https://lifegram-214905.firebaseio.com",
+  projectId: "lifegram-214905",
+  storageBucket: "lifegram-214905.appspot.com",
+  messagingSenderId: "491339857228"
+};
+
+export default !firebase.apps.length 
+  ? firebase.initializeApp(config).firestore()
+  : firebase.app().firestore();
 
 @NgModule({
   declarations: [

@@ -17,7 +17,6 @@
 
 </ion-header>
 <ion-content>
-
   <ion-row padding>
     <!-- Avatar -->
     <ion-col col-3>
@@ -72,24 +71,7 @@
     </ion-segment>
   </div>
 
-  <!-- Segment content -->
-  <div [ngSwitch]="profile_segment">
-    <ion-list *ngSwitchCase="'grid'">
-      <ion-grid>
-        <ion-row >
-          <ion-col col-4 class="grid_img" *ngFor="let i of images" (press)="pressPhoto(i.id, i.username, i.profile_img, i.post_img)">
-            <img [src]="i.post_img" alt="">
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-list>
-
-    <ion-list *ngSwitchCase="'list'">
-      
-
-    </ion-list>
-  </div>
-  
+  <div #map id="map"></div>
 
 
 </ion-content>
