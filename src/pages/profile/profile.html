@@ -17,13 +17,14 @@
 
 </ion-header>
 <ion-content>
+
   <ion-row padding>
     <!-- Avatar -->
     <ion-col col-3>
       <img src="https://avatars1.githubusercontent.com/u/918975?v=3&s=120" class="avatar" alt="">
     </ion-col>
     <!-- Information about user -->
-    <ion-col col-3 text-center >
+    <ion-col col-3 text-center>
       <h6>21</h6>
       <p no-padding no-margin>posts</p>
     </ion-col>
@@ -40,7 +41,7 @@
   <!-- Edit/follow button -->
   <ion-row no-padding no-margin>
     <ion-col no-padding no-margin col-4></ion-col>
-      <ion-col no-padding no-margin text-center col-8>
+    <ion-col no-padding no-margin text-center col-8>
       <button class="edit-button" (click)="goEditProfile()">Edit your profile</button>
     </ion-col>
     <ion-col col-3></ion-col>
@@ -53,14 +54,38 @@
     <p no-padding no-margin class="info"><a href="#">github.com/candelibas</a></p>
   </div>
 
+  <div #controls id="controls" class="nicebox">
+      <div>
+        <select #censvariable id="censvariable">
+          <option value="https://storage.googleapis.com/mapsdevsite/json/DP02_0066PE">Percent of population over 25 that completed
+            high school
+          </option>
+          <option value="https://storage.googleapis.com/mapsdevsite/json/DP05_0017E">Median age</option>
+          <option value="https://storage.googleapis.com/mapsdevsite/json/DP05_0001E">Total population</option>
+          <option value="https://storage.googleapis.com/mapsdevsite/json/DP02_0016E">Average family size</option>
+          <option value="https://storage.googleapis.com/mapsdevsite/json/DP03_0088E">Per-capita income</option>
+        </select>
+      </div>
+      <div #legend id="legend">
+        <div #census_min id="census_min">min</div>
+        <div class="color_key"><span #data_caret id="data_caret">◆</span></div>
+        <div #census_max id="census_max">max</div>
+      </div>
+    </div>
+    <div #data_box id="data_box" class="nicebox">
+      <label #data_label id="data_label" for="data_value"></label>
+      <span #data_value id="data_value"></span>
+    </div>
+    <div #map id="map"></div>
+
   <!-- Segments -->
   <div>
     <ion-segment [(ngModel)]="profile_segment">
       <ion-segment-button value="grid">
-        <ion-icon name="apps"></ion-icon>
+        <ion-icon name="list"></ion-icon>
       </ion-segment-button>
       <ion-segment-button value="list">
-        <ion-icon name="list"></ion-icon>
+        <ion-icon name="apps"></ion-icon>
       </ion-segment-button>
       <ion-segment-button value="tagged" (click)="goTaggedProfile()">
         <ion-icon name="photos"></ion-icon>
@@ -71,7 +96,23 @@
     </ion-segment>
   </div>
 
-  <div #map id="map"></div>
+  <!-- Segment content -->
+  <div [ngSwitch]="profile_segment">
+    <div *ngSwitchCase="'grid'">
+        <ion-item> 미국 </ion-item>
+        <ion-item> 중국 </ion-item>
+        <ion-item> 한국 </ion-item>
+        <ion-item> 영국 </ion-item>
+    </div>
 
-
+    <div *ngSwitchCase="'list'">
+        <ion-grid>
+            <ion-row >
+              <ion-col col-4 class="grid_img" *ngFor="let i of images" (press)="pressPhoto(i.id, i.username, i.profile_img, i.post_img)">
+                <img [src]="i.post_img" alt="">
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+    </div>
+  </div>
 </ion-content>
